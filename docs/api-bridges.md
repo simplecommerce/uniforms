@@ -18,6 +18,14 @@ Currently available bridges:
 
 If you see a lot of [`Warning: Unknown props...`](https://fb.me/react-unknown-prop) logs, check if your schema or theme doesn't provide extra props. If so, consider [registering it with `filterDOMProps`](api-helpers#filterdomprops).
 
+### Custom `uniforms` schema property
+
+You can pass a Component or an object to particular schema using `uniforms` property. Following data will be rendered as a Component or will be used as props in case if it's an object.
+The example usage is presented in particular bridges.
+
+This property is available in `JSONSchemaBridge`, `SimpleSchema2Bridge` and`SimpleSchemaBridge`.
+
+
 ## `GraphQLBridge`
 
 ```js
@@ -86,7 +94,15 @@ const schema = {
   type: 'object',
   properties: {
     firstName: { type: 'string' },
-    lastName: { type: 'string' },
+    lastName: {
+        type: 'string',
+        uniforms: MyText, // Component...
+        uniforms: {
+            // ...or object...
+            component: MyText, // ...with component...
+            propA: 1 // ...and/or extra props that will be passed to the component.
+        }
+    },
     age: {
       description: 'Age in years',
       type: 'integer',
@@ -153,7 +169,7 @@ const PersonSchema = new SimpleSchema({
     uniforms: {
       // ...or object...
       component: MyText, // ...with component...
-      propA: 1 // ...and/or extra props.
+      propA: 1 // ...and/or extra props that will be passed to the component.
     }
   }
 });
@@ -176,7 +192,7 @@ const PersonSchema = new SimpleSchema({
     uniforms: {
       // ...or object...
       component: MyText, // ...with component...
-      propA: 1 // ...and/or extra props.
+      propA: 1 // ...and/or extra props that will be passed to the component.
     }
   }
 });
